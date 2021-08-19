@@ -1,0 +1,47 @@
+﻿@page "/charts/pie"
+@using ChartJs.Blazor.PieChart
+
+<Chart Config="_config" @ref="_chart"></Chart>
+
+@code {
+    private PieConfig _config;
+    private Chart _chart;
+
+    protected override void OnInitialized()
+    {
+        _config = new PieConfig
+        {
+            Options = new PieOptions
+            {
+                Responsive = true,
+                Title = new OptionsTitle
+                {
+                    Display = true,
+                    Text = "Gráfico de motivos"
+                }
+            }
+        };
+
+        PieDataset<int> dataset = new PieDataset<int>(GetMotivosEncomendasCount())
+        {
+
+            BackgroundColor = new[]
+        {
+            ColorUtil.ColorHexString(255, 99, 132), // Slice 1 aka "Red"
+            ColorUtil.ColorHexString(255, 205, 86), // Slice 2 aka "Yellow"
+            ColorUtil.ColorHexString(75, 192, 192), // Slice 3 aka "Green"
+            ColorUtil.ColorHexString(54, 162, 235), // Slice 4 aka "Blue"}
+            }
+        };
+
+        _config.Data.Datasets.Add(dataset);
+        _config.Data.Labels.Add("Motivo A");
+        _config.Data.Labels.Add("Motivo B");
+    }
+
+    private List<int> GetMotivosEncomendasCount()
+    {
+        List<int> motivosCount = new List<int> { 10, 2 };
+        return motivosCount;
+    }
+}
